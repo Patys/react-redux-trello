@@ -1,28 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import List from './List'
 
 export class Dashboard extends React.Component {
-
-  renderTasks = (list) => {
-    let {tasks} = this.props;
-    tasks = tasks.filter(task => task.listId===list);
-    return (<div>
-      {tasks.map(task => <div id={task.id} className="task">{task.label}</div>)}
-      </div>)
-  }
-
   renderLists = () => {
-    let {lists} = this.props;
+    let {lists, tasks} = this.props;
 
     return (<div>
-      {lists.map(list => (<div id={list.id} className="list">
-            <div className="list-header">{list.name}</div>
-            {this.renderTasks(list.id)}
-          </div>))}</div>)
+      {lists.map(list => <List key={list.id} list={list} tasks={tasks}/>)}</div>)
   }
 
   render() {
-    console.log(this.props);
     return (<div>
       <div className="board">
         <div className="header">Listy</div>
