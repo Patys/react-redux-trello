@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { increment, doubleAsync } from '../modules/dashboard'
+import { moveTask, moveList } from '../modules/dashboard'
 
 /*  This is a container component. Notice it does not contain any JSX,
     nor does it import React. This component is **only** responsible for
@@ -13,8 +13,8 @@ import Dashboard from '../components/Dashboard'
     implementing our wrapper around increment; the component doesn't care   */
 
 const mapDispatchToProps = {
-  increment : () => increment(1),
-  doubleAsync
+  moveList,
+  moveTask
 }
 
 const mapStateToProps = (state) => ({

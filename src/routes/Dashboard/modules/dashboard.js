@@ -1,48 +1,47 @@
 // ------------------------------------
 // Constants
 // ------------------------------------
-export const DASHBOARD_INCREMENT = 'DASHBOARD_INCREMENT'
-export const DASHBOARD_DOUBLE_ASYNC = 'DASHBOARD_DOUBLE_ASYNC'
+export const DASHBOARD_MOVE_TASK = 'DASHBOARD_MOVE_TASK'
+export const DASHBOARD_MOVE_LIST = 'DASHBOARD_MOVE_LIST'
 
 // ------------------------------------
 // Actions
 // ------------------------------------
-export function increment (value = 1) {
+export function moveTask (value) {
   return {
-    type    : DASHBOARD_INCREMENT,
+    type    : DASHBOARD_MOVE_TASK,
     payload : value
   }
 }
 
-/*  This is a thunk, meaning it is a function that immediately
-    returns a function for lazy evaluation. It is incredibly useful for
-    creating async actions, especially when combined with redux-thunk! */
-
-export const doubleAsync = () => {
-  return (dispatch, getState) => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        dispatch({
-          type    : DASHBOARD_DOUBLE_ASYNC,
-          payload : getState().dashboard
-        })
-        resolve()
-      }, 200)
-    })
+export function moveList (value) {
+  return {
+    type    : DASHBOARD_MOVE_LIST,
+    payload : value
   }
 }
 
 export const actions = {
-  increment,
-  doubleAsync
+  moveTask,
+  moveList
 }
 
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [DASHBOARD_INCREMENT]    : (state, action) => state + action.payload,
-  [DASHBOARD_DOUBLE_ASYNC] : (state, action) => state * 2
+  [DASHBOARD_MOVE_TASK] : (state, action) => {
+    console.log(DASHBOARD_MOVE_TASK);
+    console.log(state);
+    console.log(action);
+    return state;
+  },
+  [DASHBOARD_MOVE_LIST] : (state, action) => {
+    console.log(DASHBOARD_MOVE_LIST);
+    console.log(state);
+    console.log(action);
+    return state;
+  }
 }
 
 // ------------------------------------

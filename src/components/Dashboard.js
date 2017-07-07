@@ -24,7 +24,9 @@ export class Dashboard extends React.Component {
 
 Dashboard.propTypes = {
   lists: PropTypes.array.isRequired,
-  tasks: PropTypes.array.isRequired
+  tasks: PropTypes.array.isRequired,
+  moveTask: PropTypes.func.isRequired,
+  moveList: PropTypes.func.isRequired
 }
 
 export default Dashboard
