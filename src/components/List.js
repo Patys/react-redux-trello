@@ -3,10 +3,6 @@ import PropTypes from 'prop-types'
 import Task from './Task'
 
 class List extends React.Component {
-  state = {
-    draggedItemIndex: null
-  }
-
   onTaskDragOver = (e) => {
     e.preventDefault();
     e.dataTransfer.dropEffect = 'move';
@@ -14,28 +10,26 @@ class List extends React.Component {
 
   onTaskDragStart = (e) => {
     e.dataTransfer.effectAllowed = 'move';
-    e.dataTransfer.setData("text/html", e.target);
-    console.log('on start', e.target.id);
-    this.setState({draggedItemIndex: e.target.id});
+    e.dataTransfer.setData("target", e.target.id);
   }
 
   onTaskDrop = (e) => {
-    console.log('maybe start', this.state.draggedItemIndex);
-
     const droppedList = e.currentTarget.children[0].id;
-    if(this.state.draggedItemIndex && droppedList) {
+    console.log('target', e.currentTarget);
+    console.log('target id', e.currentTarget.children[0].id);
+    if(e.dataTransfer.getData("target") && droppedList) {
       this.props.moveTask({
-        id: this.state.draggedItemIndex,
+        id: e.dataTransfer.getData("target"),
         dest: droppedList
       });
     }
-    e.stopPropagation();
-    // this.setState({draggedItemIndex: null});
+    // e.stopPropagation();
   }
 
   renderTasks = (list) => {
     let {tasks} = this.props;
-    tasks = tasks.filter(task => task.listId===list);
+    tasks = tasks.filter(task => parseInt(task.listId)===parseInt(list));
+    if(tasks.length > 0) {
     return (<div>
       {tasks.map(task => <Task draggable="true"
         onDragStart={this.onTaskDragStart}
@@ -46,6 +40,19 @@ class List extends React.Component {
         id={task.id}
         task={task}/>)}
       </div>)
+    } else {
+      let task = {id: -1, label: '', listId: list};
+      return(<div className="first-task">
+        <Task draggable="false"
+          onDragStart={this.onTaskDragStart}
+          onDrop={this.onTaskDrop}
+          onDragOver={this.onTaskDragOver}
+          moveTask={this.props.moveTask}
+          key="-1"
+          id="-1"
+          task={task}/>
+        </div>);
+    }
   }
 
   render() {

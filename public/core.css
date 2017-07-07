@@ -53,3 +53,9 @@ body {
 .task:hover {
   background-color: #ddd;
 }
+
+.first-task div {
+  height: 17px;
+  background-color: #E2E4E6;
+  color: #E2E4E6;
+}

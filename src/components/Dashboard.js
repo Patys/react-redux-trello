@@ -29,7 +29,6 @@ export class Dashboard extends React.Component {
         end: droppedItemIndex
       });
     }
-    this.setState({draggedItemIndex: null, draggedItemClass: null});
   }
 
   renderLists = () => {
@@ -41,7 +40,7 @@ export class Dashboard extends React.Component {
         onDragOver={this.onDragOver}
         moveTask={this.props.moveTask}
         id={list.index}
-        key={list.index}
+        key={list.id}
         list={list}
         tasks={tasks}/>)}
       </div>)
