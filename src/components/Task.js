@@ -5,12 +5,20 @@ class Task extends React.Component {
 
   render() {
     const {task} = this.props;
-    return <div id={task.id} className="task">{task.label}</div>;
+    let {onDragStart, onDragOver, onDrop} = this.props;
+    return <div draggable="true"
+      onDragStart={onDragStart}
+      onDragOver={onDragOver}
+      onDrop={onDrop}
+      id={task.id} className="task"><span hidden id={task.listId}></span>{task.label}</div>;
   }
 }
 
 Task.propTypes = {
-  task: PropTypes.object.isRequired
+  task: PropTypes.object.isRequired,
+  onDragStart: PropTypes.func.isRequired,
+  onDragOver: PropTypes.func.isRequired,
+  onDrop: PropTypes.func.isRequired
 }
 
 export default Task
