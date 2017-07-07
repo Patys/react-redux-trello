@@ -48,7 +48,35 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 // Reducer
 // ------------------------------------
-const initialState = 0
+const initialState = {
+  lists: [
+    {
+        id: 0,
+        name: 'Testowa 1'
+    },
+    {
+      id: 1,
+      name: 'LOL'
+    }
+  ],
+  tasks: [
+    {
+      id: 0,
+      listId: 0,
+      label: 'Hello'
+    },
+    {
+      id: 1,
+      listId: 0,
+      label: 'Patryk'
+    },
+    {
+      id: 2,
+      listId: 1,
+      label: 'whoop'
+    }
+  ]
+}
 export default function dashboardReducer (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 
