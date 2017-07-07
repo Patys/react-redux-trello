@@ -5,9 +5,9 @@ class Task extends React.Component {
 
   render() {
     const {task} = this.props;
-    
+
     let {onDragStart, onDragOver, onDrop} = this.props;
-    return <div draggable="true"
+    return <div draggable={this.props.draggable}
       onDragStart={onDragStart}
       onDragOver={onDragOver}
       onDrop={onDrop}
