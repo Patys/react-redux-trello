@@ -1,15 +1,15 @@
 // ------------------------------------
 // Constants
 // ------------------------------------
-export const COUNTER_INCREMENT = 'COUNTER_INCREMENT'
-export const COUNTER_DOUBLE_ASYNC = 'COUNTER_DOUBLE_ASYNC'
+export const DASHBOARD_INCREMENT = 'DASHBOARD_INCREMENT'
+export const DASHBOARD_DOUBLE_ASYNC = 'DASHBOARD_DOUBLE_ASYNC'
 
 // ------------------------------------
 // Actions
 // ------------------------------------
 export function increment (value = 1) {
   return {
-    type    : COUNTER_INCREMENT,
+    type    : DASHBOARD_INCREMENT,
     payload : value
   }
 }
@@ -23,8 +23,8 @@ export const doubleAsync = () => {
     return new Promise((resolve) => {
       setTimeout(() => {
         dispatch({
-          type    : COUNTER_DOUBLE_ASYNC,
-          payload : getState().counter
+          type    : DASHBOARD_DOUBLE_ASYNC,
+          payload : getState().dashboard
         })
         resolve()
       }, 200)
@@ -41,15 +41,15 @@ export const actions = {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [COUNTER_INCREMENT]    : (state, action) => state + action.payload,
-  [COUNTER_DOUBLE_ASYNC] : (state, action) => state * 2
+  [DASHBOARD_INCREMENT]    : (state, action) => state + action.payload,
+  [DASHBOARD_DOUBLE_ASYNC] : (state, action) => state * 2
 }
 
 // ------------------------------------
 // Reducer
 // ------------------------------------
 const initialState = 0
-export default function counterReducer (state = initialState, action) {
+export default function dashboardReducer (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 
   return handler ? handler(state, action) : state
