@@ -11,10 +11,18 @@ class List extends React.Component {
   onTaskDragStart = (e) => {
     e.dataTransfer.effectAllowed = 'move';
     e.dataTransfer.setData("target", e.target.id);
+    e.currentTarget.style = `transform: rotate(3deg);
+    -moz-transform: rotate(3deg);
+    -webkit-transform: rotate(3deg);`;
   }
 
   onTaskDrop = (e) => {
     const droppedList = e.currentTarget.children[0].id;
+
+    e.currentTarget.style = `transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);`;
+
     if(e.dataTransfer.getData("target") && droppedList) {
       this.props.moveTask({
         id: e.dataTransfer.getData("target"),
