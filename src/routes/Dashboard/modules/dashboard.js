@@ -37,10 +37,19 @@ const ACTION_HANDLERS = {
     return state;
   },
   [DASHBOARD_MOVE_LIST] : (state, action) => {
-    console.log(DASHBOARD_MOVE_LIST);
-    console.log(state);
-    console.log(action);
-    return state;
+    const { end, start } = action.payload
+    const element = state.lists[start]
+    let lists = [
+      ...state.lists.slice(0, start),
+      ...state.lists.slice(start + 1)
+    ]
+
+    lists.splice(end, 0, element)
+
+    return {
+      ...state,
+      lists
+    }
   }
 }
 
