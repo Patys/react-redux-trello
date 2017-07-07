@@ -31,13 +31,10 @@ export const actions = {
 // ------------------------------------
 const ACTION_HANDLERS = {
   [DASHBOARD_MOVE_TASK] : (state, action) => {
-    console.log(DASHBOARD_MOVE_TASK);
     const { id, dest } = action.payload
     if(id && dest) {
       let task = state.tasks.filter(task=> (parseInt(task.id,10)===parseInt(id, 10)))[0];
       task.listId = dest;
-      console.log(id, ' ',dest);
-      console.log(task);
       let tasks = state.tasks.reduce((arr, task) => {
         if(parseInt(task.id)!==parseInt(id)) {
           arr.push(task);
@@ -46,7 +43,6 @@ const ACTION_HANDLERS = {
       }, []);
 
       tasks.push(task);
-      console.log(tasks);
       return {
         ...state,
         tasks

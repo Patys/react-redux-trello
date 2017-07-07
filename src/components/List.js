@@ -15,8 +15,6 @@ class List extends React.Component {
 
   onTaskDrop = (e) => {
     const droppedList = e.currentTarget.children[0].id;
-    console.log('target', e.currentTarget);
-    console.log('target id', e.currentTarget.children[0].id);
     if(e.dataTransfer.getData("target") && droppedList) {
       this.props.moveTask({
         id: e.dataTransfer.getData("target"),
