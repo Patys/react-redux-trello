@@ -29,7 +29,7 @@ class List extends React.Component {
         dest: droppedList
       });
     }
-    // e.stopPropagation();
+    e.stopPropagation();
   }
 
   renderTasks = (list) => {

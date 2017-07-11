@@ -53,42 +53,26 @@ const ACTION_HANDLERS = {
     }
   },
   [DASHBOARD_MOVE_LIST] : (state, action) => {
-    const { end, start } = action.payload
-    if(end && start) {
-      let elementSource = state.lists.reduce((arr, list) => {
-        if(parseInt(list.index)===parseInt(start))
-          arr.push(list);
-        return arr;
-      }, [])[0];
-      let elementDest = state.lists.reduce((arr, list) => {
-        if(parseInt(list.index)===parseInt(end))
-          arr.push(list);
-        return arr;
-      }, [])[0];
+    const { end, start } = action.payload;
+    let elementSource = state.lists.filter(list => parseInt(list.index)===parseInt(start))[0];
+    let elementDest = state.lists.filter(list => parseInt(list.index)===parseInt(end))[0];
 
-      elementSource.index = parseInt(end);
-      elementDest.index = parseInt(start);
+    elementSource.index = parseInt(end);
+    elementDest.index = parseInt(start);
 
-      let lists = state.lists.reduce((arr, list) => {
-        if(parseInt(list.index)!==parseInt(start) && parseInt(list.index)!==parseInt(end)) {
-          arr.push(list);
-        }
-        return arr;
-      }, []);
+    let lists = state.lists.filter(list => parseInt(list.index)!==parseInt(start) && parseInt(list.index)!==parseInt(end));
 
-      lists.push(elementSource);
-      lists.push(elementDest);
+    lists.push(elementSource);
+    lists.push(elementDest);
 
-      lists.sort(function(a, b) {
-        return parseInt(a.index) - parseInt(b.index);
-      });
+    lists.sort(function(a, b) {
+      return parseInt(a.index) - parseInt(b.index);
+    });
 
-      return {
-        ...state,
-        lists
-      }
+    return {
+      ...state,
+      lists
     }
-    else return state;
   }
 }
 

@@ -5,8 +5,7 @@ import List from './List'
 export class Dashboard extends React.Component {
   state = {
       draggedItemIndex: null,
-      draggedItemClass: null,
-      droppedItem: null
+      draggedItemClass: null
   }
 
   onDragOver = (e) => {
@@ -15,18 +14,17 @@ export class Dashboard extends React.Component {
     // this.setState({droppedItem: e.currentTarget.id});
   }
 
-  onDragStart = (e) => {
+  onDragStart = (list) => (e) => {
     e.dataTransfer.effectAllowed = 'move';
     e.dataTransfer.setData("text/html", e.target);
-    this.setState({draggedItemIndex: e.target.id, draggedItemClass: e.target.className});
+    this.setState({draggedItemIndex: list.index, draggedItemClass: list.className});
   }
 
-  onDrop = (e) => {
-    const droppedItemIndex = e.currentTarget.id;
-    if(droppedItemIndex  && this.state.draggedItemIndex && e.currentTarget.className === this.state.draggedItemClass) {
+  onDrop = (list) => (e) => {
+    if(this.state.draggedItemClass === e.currentTarget.className) {
       this.props.moveList({
         start: this.state.draggedItemIndex,
-        end: droppedItemIndex
+        end: list.index
       });
     }
   }
@@ -35,8 +33,8 @@ export class Dashboard extends React.Component {
     let {lists, tasks} = this.props;
     return (<div>
       {lists.map(list => <List
-        onDragStart={this.onDragStart}
-        onDrop={this.onDrop}
+        onDragStart={this.onDragStart({index: list.index, className: "list"})}
+        onDrop={this.onDrop({index: list.index, className: "list"})}
         onDragOver={this.onDragOver}
         moveTask={this.props.moveTask}
         id={list.index}
