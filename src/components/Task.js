@@ -11,7 +11,7 @@ class Task extends React.Component {
       onDragStart={onDragStart}
       onDragOver={onDragOver}
       onDrop={onDrop}
-      id={task.id} className="task"><span hidden id={task.listId}></span>{task.label}</div>;
+      id={task.id} className="task">{task.label}</div>;
   }
 }
 

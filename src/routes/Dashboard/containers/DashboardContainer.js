@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { moveTask, moveList } from '../modules/dashboard'
+import { moveTask, moveList, dragTask } from '../modules/dashboard'
 
 /*  This is a container component. Notice it does not contain any JSX,
     nor does it import React. This component is **only** responsible for
@@ -14,12 +14,14 @@ import Dashboard from '../components/Dashboard'
 
 const mapDispatchToProps = {
   moveList,
-  moveTask
+  moveTask,
+  dragTask
 }
 
 const mapStateToProps = (state) => ({
   lists : state.dashboard.lists,
-  tasks: state.dashboard.tasks
+  tasks: state.dashboard.tasks,
+  dragId: state.dashboard.dragId
 })
 
 /*  Note: mapStateToProps is where you should use `reselect` to create selectors, ie:

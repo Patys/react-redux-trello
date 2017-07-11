@@ -3,6 +3,7 @@
 // ------------------------------------
 export const DASHBOARD_MOVE_TASK = 'DASHBOARD_MOVE_TASK'
 export const DASHBOARD_MOVE_LIST = 'DASHBOARD_MOVE_LIST'
+export const DASHBOARD_DRAG_TASK = 'DASHBOARD_DRAG_TASK'
 
 // ------------------------------------
 // Actions
@@ -21,9 +22,17 @@ export function moveList (value) {
   }
 }
 
+export function dragTask (value) {
+  return {
+    type: DASHBOARD_DRAG_TASK,
+    payload: value
+  }
+}
+
 export const actions = {
   moveTask,
-  moveList
+  moveList,
+  dragTask
 }
 
 // ------------------------------------
@@ -32,15 +41,13 @@ export const actions = {
 const ACTION_HANDLERS = {
   [DASHBOARD_MOVE_TASK] : (state, action) => {
     const { id, dest } = action.payload;
-    let task = state.tasks.filter(task=> (parseInt(task.id,10)===parseInt(id, 10)))[0];
-    console.log(task);
-    task.listId = dest;
-    let tasks = state.tasks.reduce((arr, task) => {
-      if(parseInt(task.id)!==parseInt(id)) {
-        arr.push(task);
-      }
-      return arr;
-    }, []);
+    let task = state.tasks.find(task=> (parseInt(task.id,10)===parseInt(id, 10)));
+
+    if(task === undefined)
+      return state;
+
+    task.listId = parseInt(dest, 10);
+    let tasks = state.tasks.filter(task => (parseInt(task.id)!==parseInt(id)));
 
     tasks.push(task);
     return {
@@ -50,8 +57,8 @@ const ACTION_HANDLERS = {
   },
   [DASHBOARD_MOVE_LIST] : (state, action) => {
     const { end, start } = action.payload;
-    let elementSource = state.lists.filter(list => parseInt(list.index)===parseInt(start))[0];
-    let elementDest = state.lists.filter(list => parseInt(list.index)===parseInt(end))[0];
+    let elementSource = state.lists.find(list => parseInt(list.index)===parseInt(start));
+    let elementDest = state.lists.find(list => parseInt(list.index)===parseInt(end));
 
     elementSource.index = parseInt(end);
     elementDest.index = parseInt(start);
@@ -68,6 +75,12 @@ const ACTION_HANDLERS = {
     return {
       ...state,
       lists
+    }
+  },
+  [DASHBOARD_DRAG_TASK] : (state, action) => {
+    return {
+      ...state,
+      dragId :action.payload.id
     }
   }
 }
@@ -114,7 +127,8 @@ const initialState = {
       listId: 2,
       label: 'Task z listy 2'
     }
-  ]
+  ],
+  dragId: -1
 }
 export default function dashboardReducer (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
