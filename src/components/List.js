@@ -3,33 +3,32 @@ import PropTypes from 'prop-types'
 import Task from './Task'
 
 class List extends React.Component {
+  state = {
+    draggedItem: null
+  }
+
   onTaskDragOver = (e) => {
     e.preventDefault();
     e.dataTransfer.dropEffect = 'move';
   }
 
-  onTaskDragStart = (e) => {
+  onTaskDragStart = (id) => (e) => {
     e.dataTransfer.effectAllowed = 'move';
-    e.dataTransfer.setData("target", e.target.id);
-    e.currentTarget.style = `transform: rotate(3deg);
-    -moz-transform: rotate(3deg);
-    -webkit-transform: rotate(3deg);`;
+
+    console.log('onDragStart: ', id);
+    this.setState({draggedItem: id});
   }
 
-  onTaskDrop = (e) => {
-    const droppedList = e.currentTarget.children[0].id;
+  onTaskDrop = (id) => (e) => {
+    e.stopPropagation();
 
-    e.currentTarget.style = `transform: rotate(0deg);
-    -moz-transform: rotate(0deg);
-    -webkit-transform: rotate(0deg);`;
-
-    if(e.dataTransfer.getData("target") && droppedList) {
+    console.log('onDrop: ', id, ' state: ', this.state.draggedItem);
+    if(this.state.draggedItem) {
       this.props.moveTask({
-        id: e.dataTransfer.getData("target"),
-        dest: droppedList
+        'id': this.state.draggedItem,
+        'dest': id
       });
     }
-    e.stopPropagation();
   }
 
   renderTasks = (list) => {
@@ -37,12 +36,12 @@ class List extends React.Component {
     tasks = tasks.filter(task => parseInt(task.listId)===parseInt(list));
     if(tasks.length > 0) {
     return (<div>
-      {tasks.map(task => <Task draggable="true"
-        onDragStart={this.onTaskDragStart}
-        onDrop={this.onTaskDrop}
+      {tasks.map((task, i) => <Task draggable="true"
+        onDragStart={this.onTaskDragStart(task.id)}
+        onDrop={this.onTaskDrop(task.listId)}
         onDragOver={this.onTaskDragOver}
         moveTask={this.props.moveTask}
-        key={task.id}
+        key={i}
         id={task.id}
         task={task}/>)}
       </div>)

@@ -31,25 +31,21 @@ export const actions = {
 // ------------------------------------
 const ACTION_HANDLERS = {
   [DASHBOARD_MOVE_TASK] : (state, action) => {
-    const { id, dest } = action.payload
-    if(id && dest) {
-      let task = state.tasks.filter(task=> (parseInt(task.id,10)===parseInt(id, 10)))[0];
-      task.listId = dest;
-      let tasks = state.tasks.reduce((arr, task) => {
-        if(parseInt(task.id)!==parseInt(id)) {
-          arr.push(task);
-        }
-        return arr;
-      }, []);
-
-      tasks.push(task);
-      return {
-        ...state,
-        tasks
+    const { id, dest } = action.payload;
+    let task = state.tasks.filter(task=> (parseInt(task.id,10)===parseInt(id, 10)))[0];
+    console.log(task);
+    task.listId = dest;
+    let tasks = state.tasks.reduce((arr, task) => {
+      if(parseInt(task.id)!==parseInt(id)) {
+        arr.push(task);
       }
-    }
+      return arr;
+    }, []);
+
+    tasks.push(task);
     return {
-      ...state
+      ...state,
+      tasks
     }
   },
   [DASHBOARD_MOVE_LIST] : (state, action) => {
